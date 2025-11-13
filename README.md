@@ -1,231 +1,218 @@
-Biblioteca Online – Aplicação Web com CRUD e Fetch
+# Biblioteca Online – Aplicação Web com CRUD e Fetch
 
-Este projeto consiste no desenvolvimento de uma aplicação Web simulando o sistema de uma biblioteca online.
-O objetivo é integrar HTML, CSS e JavaScript utilizando requisições HTTP por meio de Fetch API, aplicando operações CRUD, validações de formulários e atualização otimista, garantindo uma interface funcional e responsiva.
+Projeto desenvolvido como trabalho da disciplina de Desenvolvimento Web, com o objetivo de implementar uma aplicação completa utilizando HTML, CSS e JavaScript, integrando:
 
-O sistema foi dividido de forma modular para facilitar manutenção, entendimento do código e clareza arquitetural.
+- Operações CRUD com Fetch API  
+- Consumo da API pública JSONPlaceholder  
+- Validações de formulário  
+- Atualização otimista na interface  
+- Organização modular em múltiplos arquivos JavaScript
 
-1. Objetivo do Projeto
+---
 
-O projeto foi desenvolvido com os seguintes objetivos:
+## Sobre o projeto
 
-Criar uma aplicação Web completa, estruturada em múltiplas páginas.
+A aplicação simula o sistema de uma biblioteca online. Na página principal, o usuário consegue:
 
-Implementar operações CRUD (Create, Read, Update, Delete) utilizando Fetch API.
+- Listar livros vindos da API;
+- Cadastrar novos livros;
+- Editar livros existentes;
+- Excluir livros;
+- Visualizar as alterações imediatamente na tabela (atualização otimista).
 
-Consumir dados de uma API pública (JSONPlaceholder) para simular interações reais.
+Além da página principal, o sistema possui outras páginas estáticas para compor o site:
 
-Garantir atualização otimista dos dados: a interface reflete a ação imediatamente, mesmo sem persistência real no servidor.
+- Catálogo de livros  
+- Sobre  
+- Contato  
+- Login (simulada)
 
-Criar formulários com validações de entrada.
+---
 
-Manter organização em pastas para separar HTML, CSS e JavaScript.
+## Funcionalidades principais
 
-Desenvolver uma interface responsiva, simples e clara para o usuário.
+- CRUD de livros usando Fetch API (GET, POST, PUT, DELETE)
+- Integração com a API pública JSONPlaceholder (`/posts`)
+- Validação de campos antes do envio:
+  - Título com no mínimo 3 caracteres
+  - Autor, ano e gênero obrigatórios
+  - ID obrigatório para edição e exclusão
+- Atualização otimista:
+  - A tabela é atualizada imediatamente após a ação
+  - Em caso de erro, o estado anterior é restaurado
+- Interface responsiva em HTML e CSS, pensada para desktop e uso básico em telas menores
 
-2. Estrutura da Aplicação
+---
 
-O projeto possui múltiplas páginas estáticas que compõem o sistema:
+## Tecnologias utilizadas
 
-Página principal (index.html)
+| Camada        | Tecnologias                |
+|--------------|----------------------------|
+| Estrutura    | HTML5                      |
+| Estilo       | CSS3                       |
+| Lógica       | JavaScript (ES6)           |
+| Requisições  | Fetch API                  |
+| Backend fake | JSONPlaceholder (`/posts`) |
 
-Contém o sistema CRUD.
+Nenhum framework foi utilizado. Todo o código é escrito em JavaScript puro.
 
-Mostra a tabela com os livros carregados da API.
+---
 
-Permite cadastrar, editar e excluir livros.
+## Estrutura do projeto
 
-Exibe o formulário dinâmico conforme a ação escolhida.
-
-Atualiza os dados na interface de forma otimista.
-
-Página de catálogo (catalogo.html)
-
-Exibe um catálogo fictício de livros.
-
-Apresentação visual simples de exemplares.
-
-Conteúdo estático, voltado apenas para exibição.
-
-Página de contato (contato.html)
-
-Formulário de contato simples.
-
-Demonstrativo de interface, não conectado à API.
-
-Página sobre (sobre.html)
-
-Traz informações institucionais do projeto.
-
-Explica o propósito e as tecnologias utilizadas.
-
-Página de login (login.html)
-
-Página simulada, voltada apenas para composição do sistema.
-
-Não há autenticação real (opcional no escopo do trabalho).
-
-3. Arquitetura e Organização de Arquivos
-
-A aplicação utiliza separação em camadas para facilitar entendimento:
-
-/Static
-   catalogo.html
-   contato.html
-   index.html
-   login.html
-   sobre.html
-
-/Scripts
-   api.js
-   validacoes.js
-   main.js
-
-/Style
-   style.css
-
-/Anexos
-   background.jpg
-   books-1842306_1280.jpg
+```txt
+BibliotecaOnline/
+├── Static/
+│   ├── index.html        # Página principal (CRUD)
+│   ├── catalogo.html     # Catálogo de livros
+│   ├── contato.html      # Página de contato
+│   ├── login.html        # Página de login (simulada)
+│   └── sobre.html        # Página "Sobre"
+│
+├── Scripts/
+│   ├── api.js            # Comunicação com a API (CRUD via Fetch)
+│   ├── validacoes.js     # Regras de validação dos formulários
+│   └── main.js           # Lógica principal da aplicação (DOM + API + validações)
+│
+├── Style/
+│   └── style.css         # Estilos globais e responsividade
+│
+└── Anexos/
+    ├── background.jpg
+    └── books-1842306_1280.jpg
 
 
-A seguir, a função de cada grupo de arquivos.
+```
+Organização dos arquivos JavaScript
+api.js – módulo de comunicação com a API
+Responsável por todas as requisições HTTP para a API JSONPlaceholder.
 
-4. Arquivos JavaScript e suas responsabilidades
-4.1 api.js
+Funções principais:
 
-Arquivo responsável exclusivamente pela comunicação com a API JSONPlaceholder.
-Ele contém apenas as funções CRUD, sem qualquer lógica de interface.
+getBooks(limit)
 
-Funções incluídas:
+Faz uma requisição GET para buscar uma lista de livros.
 
-getBooks() – Busca livros utilizando GET.
+createBook(book)
 
-createBook() – Envia um POST para criar um livro.
+Envia um POST para criar um novo livro.
 
-updateBook() – Envia um PUT para atualizar um livro.
+updateBook(id, updatedData)
 
-deleteBook() – Envia um DELETE para remover um livro.
+Envia um PUT para atualizar um livro existente.
 
-Este arquivo mantém a separação clara entre lógica de rede e lógica da interface.
+deleteBook(id)
 
-4.2 validacoes.js
+Envia um DELETE para remover um livro.
 
-Arquivo contendo todas as funções de validação de campos do formulário.
-Cada validação é isolada para garantir legibilidade e reuso.
+Este arquivo não conhece a interface. Ele apenas envia e recebe dados.
 
-Validações implementadas:
+validacoes.js – módulo de validação
+Contém funções puras para validar os campos do formulário, sem acessar o DOM diretamente e sem chamar a API.
 
-validarTitulo() – Garante título com no mínimo 3 caracteres.
+Principais funções:
 
-validarAutor() – Verifica se o autor foi informado.
+validarTitulo(titulo)
 
-validarAno() – Garante que o ano seja inteiro válido.
+validarAutor(autor)
 
-validarGenero() – Verifica se o gênero foi preenchido.
+validarAno(ano)
 
-validarId() – Valida o ID nas operações que exigem esse campo.
+validarGenero(genero)
 
-O arquivo não interage com o DOM e não chama funções da API, respeitando sua função isolada.
+validarId(id, obrigatorio)
 
-4.3 main.js
+Cada função retorna um objeto indicando se o campo é válido e, em caso de erro, qual mensagem deve ser exibida.
 
-Arquivo responsável pela lógica geral da aplicação, integrando interface, validações e API.
+main.js – lógica principal e integração
+É o arquivo que conecta tudo:
+
+Usa api.js para chamar a API;
+
+Usa validacoes.js para validar os dados;
+
+Manipula o DOM (tabela, formulário, botões);
+
+Mantém o estado local dos livros (lista em memória).
 
 Principais responsabilidades:
 
-Controlar o estado local de livros (atualização otimista).
+Carregar livros iniciais da API ao abrir a página;
 
-Detectar a ação escolhida: cadastrar, editar ou excluir.
+Controlar a ação atual (cadastrar, editar ou excluir);
 
-Validar os dados antes de enviar à API.
+Validar os campos antes de cada operação;
 
-Preencher a tabela com os livros retornados.
+Atualizar a tabela de livros dinamicamente;
 
-Preencher o formulário automaticamente ao clicar em uma linha da tabela.
+Preencher o formulário ao clicar em uma linha da tabela;
 
-Exibir erros de validação diretamente no formulário.
+Realizar atualização otimista:
 
-Enviar as requisições para a API por meio das funções de api.js.
+Adiciona, altera ou remove da lista local antes da resposta definitiva;
 
-Controlar exibição e ocultamento do formulário dinâmico.
+Em caso de erro, restaura os dados anteriores.
 
-O main.js atua como o controlador do sistema, centralizando a lógica de operação.
+Requisições Fetch (CRUD)
+As chamadas à API seguem o seguinte padrão (resumido):
 
-5. Estilos e Interface
-style.css
+Listar livros (GET):
 
-O arquivo de estilos define:
+js
+Copiar código
+getBooks(5);
+Criar livro (POST):
 
-Layout geral das páginas.
+js
+Copiar código
+createBook({
+  title: "Novo livro",
+  author: "Autor X",
+  year: 2024,
+  genre: "Ficção"
+});
+Atualizar livro (PUT):
 
-Estrutura das tabelas.
+js
+Copiar código
+updateBook(1, {
+  title: "Título atualizado"
+});
+Deletar livro (DELETE):
 
-Organização visual dos cartões e seções.
+js
+Copiar código
+deleteBook(1);
+O JSONPlaceholder não persiste essas alterações, por isso o projeto usa estado local e atualização otimista para simular um backend real.
 
-Estilos de formulários e botões.
+Como executar o projeto
+Clone ou baixe o repositório:
 
-Cores, espaçamentos e responsividade.
+bash
+Copiar código
+git clone https://github.com/seu-usuario/biblioteca-online-crud.git
+cd biblioteca-online-crud
+Abra o arquivo Static/index.html diretamente no navegador
+(ou sirva o projeto com uma extensão como Live Server, se preferir).
 
-Estilos aplicados às mensagens de erro dos inputs.
+Use o menu para navegar entre as páginas:
 
-A interface foi desenvolvida para ser simples, limpa e funcional em desktop e dispositivos móveis.
+Início (CRUD)
 
-6. Atualização Otimista
+Catálogo
 
-Como a API JSONPlaceholder não persiste alterações, o projeto utiliza atualização otimista, ou seja:
+Contato
 
-Após cada POST, PUT ou DELETE, o sistema altera o estado local e atualiza a interface imediatamente.
+Sobre
 
-Mesmo que a API não mantenha os dados, o usuário vê o comportamento como se estivesse em um sistema real.
+Login
 
-Esse método traz naturalidade ao uso e simula adequadamente um CRUD de verdade.
+Na página principal:
 
-7. Tecnologias Utilizadas
+Clique em Cadastrar, Editar ou Deletar para definir a ação;
 
-HTML5
+Preencha o formulário conforme a ação selecionada;
 
-CSS3
+Confirme e observe a atualização da tabela.
 
-JavaScript ES6
-
-Fetch API
-
-API pública JSONPlaceholder
-
-NÃO são utilizados frameworks externos, respeitando a proposta de estudo de JavaScript puro.
-
-8. Como Executar o Projeto
-
-Nenhuma instalação é necessária.
-Basta abrir o arquivo index.html em qualquer navegador moderno.
-
-Passos sugeridos:
-
-Baixar ou clonar o repositório.
-
-Abrir o arquivo index.html no navegador.
-
-Utilizar a barra lateral para navegar entre as páginas.
-
-Testar o CRUD diretamente na tela principal.
-
-9. Considerações Finais
-
-O projeto demonstra o uso de técnicas fundamentais de desenvolvimento web:
-
-Separação de responsabilidades
-
-Requisições assíncronas
-
-Uso correto da Fetch API
-
-Manipulação do DOM
-
-Validações personalizadas
-
-Estrutura modular em JavaScript
-
-Interface responsiva e amigável
-
-Essa estrutura facilita futuras expansões, como implementação de um backend real, autenticação ou banco de dados.
+Nenhuma instalação adicional é necessária.
