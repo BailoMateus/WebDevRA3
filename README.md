@@ -25,7 +25,7 @@ Além da página principal, o sistema possui outras páginas estáticas para com
 - Catálogo de livros  
 - Sobre  
 - Contato  
-- Login (simulada)
+
 
 ---
 
@@ -66,7 +66,6 @@ BibliotecaOnline/
 │   ├── index.html        # Página principal (CRUD)
 │   ├── catalogo.html     # Catálogo de livros
 │   ├── contato.html      # Página de contato
-│   ├── login.html        # Página de login (simulada)
 │   └── sobre.html        # Página "Sobre"
 │
 ├── Scripts/
@@ -205,7 +204,6 @@ Contato
 
 Sobre
 
-Login
 
 Na página principal:
 
