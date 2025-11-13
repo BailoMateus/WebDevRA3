@@ -18,21 +18,21 @@
             </ul>
         </nav>
     </header>
-    <main>
+    <main class="main-catalogo">
         <section id="contato">
             <h2 style="box-shadow: none;">Entre em contato conosco</h2>
             <form id="form-contato" action="">
                 <div>
                     <label for="nomeContato">Nome:</label>
-                    <input type="text" name="nomeContato" id="nomeContato"> 
+                    <input type="text" name="nomeContato" id="nomeContato" required> 
                 </div>
                 <div>
                     <label for="emailContato">E-mail:</label>
-                    <input type="text" name="emailContato" id="emailContato">
+                    <input type="email" name="emailContato" id="emailContato" required>
                 </div>
                 <br>
                 <div>
-                    <textarea name="msg" id="msg" rows="5" cols="50" maxlength="200"></textarea>
+                    <textarea name="msg" id="msg" rows="5" cols="50" maxlength="200" required></textarea>
                 </div>
                 <button id="btnEnviar">Enviar</button>
             </form>
