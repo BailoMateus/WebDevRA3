@@ -22,6 +22,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    font-family: serif;
 }
 
 main {
@@ -34,11 +35,15 @@ main {
 }
 
 h2, h3 {
+    
     color: var(--cor-texto-claro);
     border-bottom: 2px solid var(--cor-acento-vibrante);
     padding-bottom: 5px;
     margin-top: 20px;
     margin-bottom: 15px;
+    background-color: white;
+    box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
 }
 
 
@@ -236,10 +241,9 @@ footer p {
 }
 
 ul#bar {
-    color: white;
     display: flex;
-    margin-left: 23%;
-    margin-right: 23%;
+    justify-content: center;
+    color: white;
     background-color: #572618;
     border-radius: 10px;
 }
@@ -256,8 +260,9 @@ img {
 }
 
 div#sobre{
-    padding: 1px;
+    padding: 5px;
     border-radius: 25px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 input{
