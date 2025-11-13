@@ -22,6 +22,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    font-family: serif;
 }
 
 main {
@@ -34,11 +35,15 @@ main {
 }
 
 h2, h3 {
+    
     color: var(--cor-texto-claro);
     border-bottom: 2px solid var(--cor-acento-vibrante);
     padding-bottom: 5px;
     margin-top: 20px;
     margin-bottom: 15px;
+    background-color: white;
+    box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
 }
 
 
@@ -152,9 +157,19 @@ nav a:hover {
     background-color: #923d3d;
 }
 
+.livro {
+    display: block;
+}
+
+.livroapareceu {
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    padding: 10px;
+}
 
 #form-section {
-    background-color: var(--cor-fundo-secundaria);
+    background-color: white;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -236,11 +251,10 @@ footer p {
 }
 
 ul#bar {
-    color: white;
     display: flex;
-    margin-left: 23%;
-    margin-right: 23%;
-    background-color: #572618;
+    justify-content: center;
+    color: white;
+    background-color: #3D2201;
     border-radius: 10px;
 }
 
@@ -256,8 +270,9 @@ img {
 }
 
 div#sobre{
-    padding: 1px;
+    padding: 5px;
     border-radius: 25px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 input{
