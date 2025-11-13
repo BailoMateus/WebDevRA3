@@ -16,6 +16,22 @@ function salvarLivrosNoStorage() {
   }
 }
 
+function carregarLivrosDoStorage() {
+  try {
+    const data = localStorage.getItem(STORAGE_KEY);
+    if (!data) return null;
+
+    const parsed = JSON.parse(data);
+    if (Array.isArray(parsed)) {
+      return parsed;
+    }
+    return null;
+  } catch (e) {
+    console.error("Erro ao carregar livros do localStorage:", e);
+    return null;
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const tabelaBody = document.querySelector("#tabela-livros tbody");
   const formSection = document.getElementById("form-section");
@@ -37,8 +53,15 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // 1) Carrega livros iniciais da API (GET)
-  carregarLivrosIniciais();
+  // 1) Tenta carregar livros do localStorage; se não tiver, busca na API
+  const livrosSalvos = carregarLivrosDoStorage();
+
+  if (livrosSalvos && livrosSalvos.length > 0) {
+    livros = livrosSalvos;
+    renderizarTabela(tabelaBody);
+  } else {
+    carregarLivrosIniciais();
+  }
 
   // 2) Botões que escolhem a ação CRUD
   btnCadastrar.addEventListener("click", () => {
@@ -113,16 +136,26 @@ document.addEventListener("DOMContentLoaded", () => {
           genre: generoValor.trim()
         };
 
-        // POST na API
-        const criado = await createBook(novoLivro);
+          // Faz o POST apenas para simular a requisição,
+          // mas não vamos confiar no id que ela devolve.
+      await createBook(novoLivro);
 
-        // Atualização otimista: adiciona no array local
-        livros.push(criado);
-        renderizarTabela(tabelaBody);
-        salvarLivrosNoStorage();
-        alert("Livro cadastrado com sucesso!");
+        // Gera um id único baseado no maior id atual
+    const maiorIdAtual = livros.length > 0
+    ? Math.max(...livros.map((livro) => Number(livro.id) || 0))
+    : 0;
 
-      } else if (acaoAtual === "edit") {
+  const livroComId = {
+    ...novoLivro,
+    id: maiorIdAtual + 1
+  };
+
+  // Atualização otimista: adiciona no array local
+  livros.push(livroComId);
+  renderizarTabela(tabelaBody);
+  salvarLivrosNoStorage();
+  alert("Livro cadastrado com sucesso!");
+} else if (acaoAtual === "edit") {
         const idNum = Number(idValor);
         const dadosAtualizados = {
           title: tituloValor.trim(),
