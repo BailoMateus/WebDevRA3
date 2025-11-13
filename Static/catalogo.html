@@ -22,25 +22,22 @@
     <main>
         <section id="catalogo-container">
             <h2>Lista de Livros</h2>
-            
+            <!--Essa div ficará invisível até que seja adicionado um livro no CRUD, deve haver dois estilos pra essa div, 
+            o estilo que fica invisível será o principal e o estilo que vai ser adicionado por JS que é o estilo que aparecerá 
+            na hora de mostrar o catálogo--> 
+            <div id="livros-container" class="livros-container">
+                <div class="livro">
+                    <p><strong>ID:</strong></p>
+                    <p><strong>Título:</strong></p>
+                    <p><strong>Autor:</strong></p>
+                    <p><strong>Ano de Lançamento:</strong> </p>
+                    <p><strong>Gênero:</strong></p>
+                </div>
+            </div>
         </section>
     </main>
-    
     <footer>
         <p>&copy; 2025 Livraria do Zé</p>
     </footer>
-
-    <!--Essa div ficará invisível até que seja adicionado um livro no CRUD, deve haver dois estilos pra essa div, 
-    o estilo que fica invisível será o principal e o estilo que vai ser adicionado por JS que é o estilo que aparecerá 
-    na hora de mostrar o catálogo--> 
-    <div id="livros-container" class="livros-container">
-        <div class="livro">
-            <p><strong>ID:</strong></p>
-            <p><strong>Título:</strong></p>
-            <p><strong>Autor:</strong></p>
-            <p><strong>Ano de Lançamento:</strong> </p>
-            <p><strong>Gênero:</strong></p>
-        </div>
-    </div>
 </body>
 </html>
