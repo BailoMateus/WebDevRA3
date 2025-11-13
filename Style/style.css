@@ -145,13 +145,10 @@ nav a:hover {
 }
 
 #btn-editar:hover {
-    background-color: #435118;
+    background-color: #d4d701;
 }
 
-#btn-deletar {
-    background-color: #B04D4D; 
-    color: var(--cor-texto-claro);
-}
+
 
 #btn-deletar:hover {
     background-color: #923d3d;
@@ -259,8 +256,12 @@ ul#bar {
 }
 
 section#contato {
-   display: grid;
+   display: flex;
    text-align: center;
+   background-color: white;
+   box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.3);
+   border-radius: 10px;
+   width: 500px;
 }
 
 img {
@@ -280,6 +281,10 @@ input{
     border-width: 1px;
 }
 
-textarea{
+button{
     border-radius: 5px;
+    background-color: white;
+    border-width: 1px;
+    font-family: serif;
+    margin-bottom: 20px;
 }
