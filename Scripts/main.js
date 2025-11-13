@@ -5,6 +5,33 @@
 let livros = [];
 let acaoAtual = null; // 'create' | 'edit' | 'delete'
 
+// Chave usada no localStorage para compartilhar livros com o catálogo
+const STORAGE_KEY = "livrosBiblioteca";
+
+function salvarLivrosNoStorage() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(livros));
+  } catch (e) {
+    console.error("Erro ao salvar livros no localStorage:", e);
+  }
+}
+
+function carregarLivrosDoStorage() {
+  try {
+    const data = localStorage.getItem(STORAGE_KEY);
+    if (!data) return null;
+
+    const parsed = JSON.parse(data);
+    if (Array.isArray(parsed)) {
+      return parsed;
+    }
+    return null;
+  } catch (e) {
+    console.error("Erro ao carregar livros do localStorage:", e);
+    return null;
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const tabelaBody = document.querySelector("#tabela-livros tbody");
   const formSection = document.getElementById("form-section");
@@ -21,13 +48,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnDeletar = document.getElementById("btn-deletar");
   const btnConcluir = document.getElementById("btn-concluir");
 
+  // Se não estiver na página de CRUD, não faz nada
   if (!tabelaBody || !formSection || !formLivro) {
-    // Se não estiver na página do CRUD, não faz nada
     return;
   }
 
-  // 1) Carrega livros iniciais da API (GET)
-  carregarLivrosIniciais();
+  // 1) Tenta carregar livros do localStorage; se não tiver, busca na API
+  const livrosSalvos = carregarLivrosDoStorage();
+
+  if (livrosSalvos && livrosSalvos.length > 0) {
+    livros = livrosSalvos;
+    renderizarTabela(tabelaBody);
+  } else {
+    carregarLivrosIniciais();
+  }
 
   // 2) Botões que escolhem a ação CRUD
   btnCadastrar.addEventListener("click", () => {
@@ -102,15 +136,26 @@ document.addEventListener("DOMContentLoaded", () => {
           genre: generoValor.trim()
         };
 
-        // POST na API
-        const criado = await createBook(novoLivro);
+          // Faz o POST apenas para simular a requisição,
+          // mas não vamos confiar no id que ela devolve.
+      await createBook(novoLivro);
 
-        // Atualização otimista: adiciona no array local
-        livros.push(criado);
-        renderizarTabela(tabelaBody);
-        alert("Livro cadastrado com sucesso!");
+        // Gera um id único baseado no maior id atual
+    const maiorIdAtual = livros.length > 0
+    ? Math.max(...livros.map((livro) => Number(livro.id) || 0))
+    : 0;
 
-      } else if (acaoAtual === "edit") {
+  const livroComId = {
+    ...novoLivro,
+    id: maiorIdAtual + 1
+  };
+
+  // Atualização otimista: adiciona no array local
+  livros.push(livroComId);
+  renderizarTabela(tabelaBody);
+  salvarLivrosNoStorage();
+  alert("Livro cadastrado com sucesso!");
+} else if (acaoAtual === "edit") {
         const idNum = Number(idValor);
         const dadosAtualizados = {
           title: tituloValor.trim(),
@@ -127,6 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
           livro.id === idNum ? { ...livro, ...atualizado } : livro
         );
         renderizarTabela(tabelaBody);
+        salvarLivrosNoStorage();
         alert("Livro atualizado com sucesso!");
 
       } else if (acaoAtual === "delete") {
@@ -136,6 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const backup = [...livros];
         livros = livros.filter((livro) => livro.id !== idNum);
         renderizarTabela(tabelaBody);
+        salvarLivrosNoStorage();
 
         try {
           await deleteBook(idNum);
@@ -145,6 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
           console.error(erro);
           livros = backup;
           renderizarTabela(tabelaBody);
+          salvarLivrosNoStorage();
           alert("Não foi possível excluir o livro. Alteração desfeita.");
         }
       }
@@ -164,9 +212,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function carregarLivrosIniciais() {
     try {
-      const dados = await getBooks(5); // pega só alguns livros
+      const dados = await getBooks(5); // pega só alguns livros da API
       livros = dados;
       renderizarTabela(tabelaBody);
+      salvarLivrosNoStorage();
     } catch (erro) {
       console.error(erro);
       alert("Não foi possível carregar os livros iniciais da API.");
@@ -284,6 +333,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function encontrarOuCriarSpanErro(input, criarSeNaoExistir) {
     let proximo = input.nextElementSibling;
+
     while (proximo && proximo.tagName === "BR") {
       proximo = proximo.nextElementSibling;
     }
