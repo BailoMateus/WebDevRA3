@@ -157,6 +157,16 @@ nav a:hover {
     background-color: #923d3d;
 }
 
+.livro {
+    display: none;
+}
+
+.livroapareceu {
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    padding: 10px;
+}
 
 #form-section {
     background-color: white;
