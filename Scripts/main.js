@@ -318,10 +318,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function exibirErrosFormulario(erros) {
-    if (erros.id) marcarErro(inputId, erros.id);
-    if (erros.titulo) marcarErro(inputTitulo, erros.titulo);
-    if (erros.autor) marcarErro(inputAutor, erros.autor);
-    if (erros.ano) marcarErro(inputAno, erros.ano);
+    if (erros.id) marcarErro(inputGenero, erros.id);
+    if (erros.titulo) marcarErro(inputGenero, erros.titulo);
+    if (erros.autor) marcarErro(inputGenero, erros.autor);
+    if (erros.ano) marcarErro(inputGenero, erros.ano);
     if (erros.genero) marcarErro(inputGenero, erros.genero);
   }
 
