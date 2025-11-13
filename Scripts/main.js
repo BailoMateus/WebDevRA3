@@ -5,6 +5,17 @@
 let livros = [];
 let acaoAtual = null; // 'create' | 'edit' | 'delete'
 
+// Chave usada no localStorage para compartilhar livros com o catálogo
+const STORAGE_KEY = "livrosBiblioteca";
+
+function salvarLivrosNoStorage() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(livros));
+  } catch (e) {
+    console.error("Erro ao salvar livros no localStorage:", e);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const tabelaBody = document.querySelector("#tabela-livros tbody");
   const formSection = document.getElementById("form-section");
@@ -21,8 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnDeletar = document.getElementById("btn-deletar");
   const btnConcluir = document.getElementById("btn-concluir");
 
+  // Se não estiver na página de CRUD, não faz nada
   if (!tabelaBody || !formSection || !formLivro) {
-    // Se não estiver na página do CRUD, não faz nada
     return;
   }
 
@@ -108,6 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Atualização otimista: adiciona no array local
         livros.push(criado);
         renderizarTabela(tabelaBody);
+        salvarLivrosNoStorage();
         alert("Livro cadastrado com sucesso!");
 
       } else if (acaoAtual === "edit") {
@@ -127,6 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
           livro.id === idNum ? { ...livro, ...atualizado } : livro
         );
         renderizarTabela(tabelaBody);
+        salvarLivrosNoStorage();
         alert("Livro atualizado com sucesso!");
 
       } else if (acaoAtual === "delete") {
@@ -136,6 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const backup = [...livros];
         livros = livros.filter((livro) => livro.id !== idNum);
         renderizarTabela(tabelaBody);
+        salvarLivrosNoStorage();
 
         try {
           await deleteBook(idNum);
@@ -145,6 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
           console.error(erro);
           livros = backup;
           renderizarTabela(tabelaBody);
+          salvarLivrosNoStorage();
           alert("Não foi possível excluir o livro. Alteração desfeita.");
         }
       }
@@ -164,9 +179,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function carregarLivrosIniciais() {
     try {
-      const dados = await getBooks(5); // pega só alguns livros
+      const dados = await getBooks(5); // pega só alguns livros da API
       livros = dados;
       renderizarTabela(tabelaBody);
+      salvarLivrosNoStorage();
     } catch (erro) {
       console.error(erro);
       alert("Não foi possível carregar os livros iniciais da API.");
@@ -284,6 +300,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function encontrarOuCriarSpanErro(input, criarSeNaoExistir) {
     let proximo = input.nextElementSibling;
+
     while (proximo && proximo.tagName === "BR") {
       proximo = proximo.nextElementSibling;
     }
